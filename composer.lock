@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d15b27ae00c77d5661d64429738f20c",
+    "content-hash": "d683392f64e7caba1ab083ba578b9d40",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1275,6 +1275,69 @@
                 "server"
             ],
             "time": "2018-06-23T16:57:59+00:00"
+        },
+        {
+            "name": "marcin-orlowski/laravel-api-response-builder",
+            "version": "4.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarcinOrlowski/laravel-api-response-builder.git",
+                "reference": "85aeca227a8abeae1c98e4daf0a095b7ebe53757"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarcinOrlowski/laravel-api-response-builder/zipball/85aeca227a8abeae1c98e4daf0a095b7ebe53757",
+                "reference": "85aeca227a8abeae1c98e4daf0a095b7ebe53757",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.1",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "codacy/coverage": "^1.0",
+                "marcin-orlowski/coding-standard": "^1.1",
+                "mockery/mockery": "^0.9.8",
+                "orchestra/testbench": "^3.1",
+                "phpunit/php-code-coverage": "^2.2.4",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MarcinOrlowski\\ResponseBuilder\\ResponseBuilderServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/",
+                    "tests/",
+                    "tests/Traits/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Orlowski",
+                    "homepage": "http://MarcinOrlowski.com/"
+                }
+            ],
+            "description": "Helps building nice, normalized and easy to consume REST API responses.",
+            "homepage": "https://github.com/MarcinOrlowski/laravel-api-response-builder",
+            "keywords": [
+                "api",
+                "builder",
+                "helper",
+                "json",
+                "laravel",
+                "rest"
+            ],
+            "time": "2018-07-20T20:23:59+00:00"
         },
         {
             "name": "monolog/monolog",

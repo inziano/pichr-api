@@ -150,7 +150,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        MarcinOrlowski\ResponseBuilder\ResponseBuilderServiceProvider::class,
         /*
          * Application Service Providers...
          */
