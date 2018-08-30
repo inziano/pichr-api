@@ -9,5 +9,5 @@ interface UserServiceInterface {
 
     public function getSingleUser($id);
 
-    // public function createSingleUser($request);
+    public function createSingleUser($request);
 }
