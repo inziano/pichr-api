@@ -6,24 +6,49 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
+use Modules\User\Services\UserService;
+
 class UserController extends Controller
 {
+
+    // Variables
+    private $service;
+
+    /**
+     * 
+     * Constructor
+     */
+    public function __construct(UserService $service) {
+
+        $this->service = $service;
+    }
+
+    /**
+     * Display one user
+     * @return Response
+     */
+    public function getSingleUser($id) {
+
+        // Return single user
+        return $this->service->getSingleUser($id);
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
-    {
-        return view('user::index');
+    public function getAll() {
+
+        return $this->service->getAllUsers();
     }
 
     /**
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function create()
-    {
-        return view('user::create');
+    public function createSingleUser(Request $request) {
+
+        return $this->service->createSingleUser($request);
     }
 
     /**
@@ -31,16 +56,15 @@ class UserController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
     }
 
     /**
      * Show the specified resource.
      * @return Response
      */
-    public function show()
-    {
+    public function show() {
+
         return view('user::show');
     }
 
