@@ -151,6 +151,11 @@ return [
          * Package Service Providers...
          */
         MarcinOrlowski\ResponseBuilder\ResponseBuilderServiceProvider::class,
+        
+        /*
+        * Providers for the api consumer service
+        */
+        Optimus\ApiConsumer\Provider\LaravelServiceProvider::class,
         /*
          * Application Service Providers...
          */

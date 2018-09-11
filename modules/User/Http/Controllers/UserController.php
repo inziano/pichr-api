@@ -24,6 +24,11 @@ class UserController extends Controller
     }
 
     /**
+     * 
+     * Read methods
+     */
+
+    /**
      * Display one user
      * @return Response
      */
@@ -43,7 +48,13 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 
+     * Create methods
+     */
+
+    /**
+     * Store a newly created resource in storage.
+     * @param  Request $request
      * @return Response
      */
     public function createSingleUser(Request $request) {
@@ -51,13 +62,36 @@ class UserController extends Controller
         return $this->service->createSingleUser($request);
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
+     * 
+     * Auth methods
+     */
+
+    /**
+     * 
+     * Login user
+     * @param Request $request
      * @return Response
      */
-    public function store(Request $request) {
+    public function loginUser(Request $request) {
+
+        return $this->service->loginAttempt($request);
     }
+
+    /**
+     * 
+     * Register user
+     * @param Request $request
+     * @return Response
+     */
+    public function registerUser(Request $request) {
+
+        return $this->service->registerUser($request);
+    }
+
+
+
 
     /**
      * Show the specified resource.

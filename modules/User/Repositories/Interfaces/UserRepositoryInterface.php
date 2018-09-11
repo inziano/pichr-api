@@ -12,4 +12,12 @@ interface UserRepositoryInterface {
     public function getAllUsers();
 
     public function getSingleUser($id);
+
+    public function checkForDuplicateEmail($email);
+
+    public function checkForDuplicateUsername($username);
+
+    public function checkCredentials($request);
+
+    public function deleteUser($id);
 }

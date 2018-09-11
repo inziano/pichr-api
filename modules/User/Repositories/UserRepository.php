@@ -37,22 +37,37 @@ class UserRepository implements UserRepositoryInterface {
       */
     // Create single user record
     public function createSingleUser($request) {
-
-        // Request email
+        
+        // Get the email and check if it exists
         $email = $request->email;
+        $username = $request->username;
 
-        // dd($request);
-        // Create the user
-        $newuser = User::create([
-            'username'=> $request->username,
-            'email'=> $request->email,
-            'password'=> $request->password
-        ]);
+        // Get email and check if it exists
+        if ($this->checkForDuplicateEmail($email) && !$this->checkForDuplicateUsername($username)) {
+           
+            // User exists
+            return 'email exists';
 
-        if ( $newuser->email === $email ) {
+        } else if($this->checkForDuplicateUsername($username) && !$this->checkForDuplicateEmail($email)) {
+            
+            // Username exists
+            return 'username exists';
 
-            // Return true
-            return True;        
+        }else if ($this->checkForDuplicateEmail($email) && $this->checkForDuplicateUsername($username)) {
+            
+            // Username Email Combination exists
+            return 'username and email exist';
+
+        }else {
+            // //Create the new user 
+            $newUser = User::create(
+                [
+                    'name'=> $request->name,
+                    'username'=> $request->username,
+                    'email'=> $request->email,
+                    'password'=> $request->password
+                ]);
+            return 'ok';
         }
     }
 
@@ -66,14 +81,74 @@ class UserRepository implements UserRepositoryInterface {
         // User
         return User::where('id',$id)->first();
     }
+
     // Query all user records
     public function getAllUsers() {
         // Users
         return User::all();
     }
+
     // Query single user's credentials
+    public function checkCredentials($request)
+    {
+        //Check that the username and password exist and match
+        $pwd = trim($request->password," ");
+
+        $email = $request->email;
+        //Find account with that user name
+        $user = User::where('email',$email)->firstOrFail();
+
+        if($user)
+        {
+            $pass = $user->password;
+
+            // Check if the password matches the hashed password
+            if (/* Hash::check($request->password,$pass) */$pass === $pwd)
+            {
+                // Return Okay.
+                return 'ok';
+            }
+            else
+            {
+                // Build an error response
+               return 'password error';
+            }
+        }
+        else
+        {
+            return 'incorrect';
+        }
+    } 
+
     // Query for duplicate email
+    public function checkForDuplicateEmail($email) {
+
+        $value = User::where('email',$email)->count();
+
+        if ( $value >= 1)
+        {
+            return true;
+        } else //$value is 0
+        {
+            return false;
+        }
+    }
+
     // Query for duplicate username
+    public function checkForDuplicateUsername($username) {
+
+        $value = User::where('username',$username)->count();
+
+        if ( $value >= 1)
+        {
+            // Username already exists
+            return true;
+        } else
+        {
+            // Username not in use
+            return false;
+        }
+    }
     // Query for duplicate record
 
     /**
@@ -109,4 +184,16 @@ class UserRepository implements UserRepositoryInterface {
      * 
      */
     // Delete single user record
+    public function deleteUser($id)
+    {
+        //Get the id if exists
+        $user = User::findOrFail($id);
+        //if the user exist then delete the account
+        if($user)
+        {
+            $user->delete($id);
+
+            return $user;
+        }
+    }
 }

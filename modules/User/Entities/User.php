@@ -2,13 +2,14 @@
 
 namespace Modules\User\Entities;
 
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticable;
 
 class User extends Authenticable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * Table associated with the model

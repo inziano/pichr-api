@@ -10,4 +10,10 @@ interface UserServiceInterface {
     public function getSingleUser($id);
 
     public function createSingleUser($request);
+
+    public function registerUser($request);
+
+    public function appTokens($type,array $data=[]);
+
+    public function loginAttempt($request);
 }
