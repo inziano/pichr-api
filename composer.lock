@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "edb4708a05c792dbfa568c2b40226f12",
+    "content-hash": "6e1fa5c008d3bfb7efc4cd18804b992d",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1277,6 +1277,69 @@
             "time": "2018-06-23T16:57:59+00:00"
         },
         {
+            "name": "marcin-orlowski/laravel-api-response-builder",
+            "version": "4.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarcinOrlowski/laravel-api-response-builder.git",
+                "reference": "85aeca227a8abeae1c98e4daf0a095b7ebe53757"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarcinOrlowski/laravel-api-response-builder/zipball/85aeca227a8abeae1c98e4daf0a095b7ebe53757",
+                "reference": "85aeca227a8abeae1c98e4daf0a095b7ebe53757",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.1",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "codacy/coverage": "^1.0",
+                "marcin-orlowski/coding-standard": "^1.1",
+                "mockery/mockery": "^0.9.8",
+                "orchestra/testbench": "^3.1",
+                "phpunit/php-code-coverage": "^2.2.4",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MarcinOrlowski\\ResponseBuilder\\ResponseBuilderServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/",
+                    "tests/",
+                    "tests/Traits/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Orlowski",
+                    "homepage": "http://MarcinOrlowski.com/"
+                }
+            ],
+            "description": "Helps building nice, normalized and easy to consume REST API responses.",
+            "homepage": "https://github.com/MarcinOrlowski/laravel-api-response-builder",
+            "keywords": [
+                "api",
+                "builder",
+                "helper",
+                "json",
+                "laravel",
+                "rest"
+            ],
+            "time": "2018-07-20T20:23:59+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.23.0",
             "source": {
@@ -1527,6 +1590,47 @@
                 "rad"
             ],
             "time": "2018-07-13T15:36:59+00:00"
+        },
+        {
+            "name": "optimus/api-consumer",
+            "version": "0.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/esbenp/laravel-api-consumer.git",
+                "reference": "d41b6910e71037be0dd017064ae12c1570008d38"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/esbenp/laravel-api-consumer/zipball/d41b6910e71037be0dd017064ae12c1570008d38",
+                "reference": "d41b6910e71037be0dd017064ae12c1570008d38",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "~4.7",
+                "satooshi/php-coveralls": "dev-master@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Optimus\\ApiConsumer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache"
+            ],
+            "authors": [
+                {
+                    "name": "Esben Petersen",
+                    "email": "esbenspetersen@gmail.com"
+                }
+            ],
+            "time": "2016-01-10T13:06:32+00:00"
         },
         {
             "name": "paragonie/random_compat",
