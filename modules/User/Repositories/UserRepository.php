@@ -88,6 +88,12 @@ class UserRepository implements UserRepositoryInterface {
         return User::all();
     }
 
+    // Query availability of record
+    public function userExists ( $id ) {
+        // User
+        return User::where( 'id', $id )->exists();
+    }
+
     // Query single user's credentials
     public function checkCredentials($request)
     {
@@ -103,20 +109,36 @@ class UserRepository implements UserRepositoryInterface {
             $pass = $user->password;
 
             // Check if the password matches the hashed password
-            if (/* Hash::check($request->password,$pass) */$pass === $pwd)
+            if ( Hash::check($request->password,$pass) )
             {
+                // Build data
+                $resp = [
+                    'return'=> 'ok',
+                    'value'=> $user->id
+                ];
                 // Return Okay.
-                return 'ok';
+                return $resp;
             }
             else
             {
-                // Build an error response
-               return 'password error';
+               // Build data
+               $resp = [
+                    'return'=> 'password error',
+                    'value'=> null
+                ];
+
+                return $resp;
             }
         }
         else
         {
-            return 'incorrect';
+            // Build data
+            $resp = [
+                'return'=> 'incorrect',
+                'value'=> null
+            ];
+
+            return $resp;
         }
     } 
 
@@ -166,7 +188,7 @@ class UserRepository implements UserRepositoryInterface {
 
             $val = $user->update($request->all());
 
-            dd($val);
+            // dd($val);
 
             if($val->id === $id) {
 

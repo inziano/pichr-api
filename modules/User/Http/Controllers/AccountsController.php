@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-use Modules\User\Services\UserService;
+use Modules\User\Services\AccountsService;
 
-class UserController extends Controller
+class AccountsController extends Controller
 {
 
     // Variables
@@ -18,7 +18,7 @@ class UserController extends Controller
      * 
      * Constructor
      */
-    public function __construct(UserService $service) {
+    public function __construct(AccountsService $service) {
 
         $this->service = $service;
     }
@@ -32,10 +32,10 @@ class UserController extends Controller
      * Display one user
      * @return Response
      */
-    public function getSingleUser($id) {
+    public function getSingleAccount($id) {
 
         // Return single user
-        return $this->service->getSingleUser($id);
+        return $this->service->getSingleAccount($id);
     }
 
     /**
@@ -44,7 +44,7 @@ class UserController extends Controller
      */
     public function getAll() {
 
-        return $this->service->getAllUsers();
+        return $this->service->getAllAccounts();
     }
 
     /**
@@ -57,49 +57,18 @@ class UserController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function createSingleUser(Request $request) {
+    public function createSingleAccount(Request $request) {
 
-        return $this->service->createSingleUser($request);
+        return $this->service->createSingleAccount($request);
     }
-
-
-    /**
-     * 
-     * Auth methods
-     */
-
-    /**
-     * 
-     * Login user
-     * @param Request $request
-     * @return Response
-     */
-    public function loginUser(Request $request) {
-
-        return $this->service->loginAttempt($request);
-    }
-
-    /**
-     * 
-     * Register user
-     * @param Request $request
-     * @return Response
-     */
-    public function registerUser(Request $request) {
-
-        return $this->service->registerUser($request);
-    }
-
-
-
 
     /**
      * Show the specified resource.
      * @return Response
      */
-    public function show($id) {
+    public function show() {
 
-        // return $this->service->getSingleUser($id);
+        return view('user::show');
     }
 
     /**

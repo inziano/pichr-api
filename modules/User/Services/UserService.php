@@ -4,10 +4,11 @@ namespace Modules\User\Services;
 
 use App\ApiCode;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Application;
+use Modules\User\Repositories\UserRepository;
 use \MarcinOrlowski\ResponseBuilder\ResponseBuilder;
 use Modules\User\Services\Interfaces\UserServiceInterface;
-use Modules\User\Repositories\UserRepository;
 
 class UserService implements UserServiceInterface {
 
@@ -43,8 +44,6 @@ class UserService implements UserServiceInterface {
         // Build json response
         $response = $this->response::success($user);
 
-        // dd($response);
-
         // Return response
         return $response;
     }
@@ -67,10 +66,11 @@ class UserService implements UserServiceInterface {
     }
 
     // Get single user
-    public function getSingleUSer($id) {
+    public function getSingleUser($id) {
 
         // Hit repo
         $user = $this->repo->getSingleUser($id);
+        // $user = $this->repo->userExists($id);
 
         // Build response
         $response = $this->response::success($user);
@@ -87,8 +87,7 @@ class UserService implements UserServiceInterface {
     public function loginAttempt($request) {
         // Check if request has email and password 
         if ( $request->has('email') && $request->has('password')) {
-            // Start processing the request
-
+            // Hash password
             // email and password
             $email = $request->email;
             $password = $request->password;
@@ -96,15 +95,21 @@ class UserService implements UserServiceInterface {
             // pass the values to the repo
             $response = $this->repo->checkCredentials($request);
 
+            $resp_return = $response['return'];
+            $resp_value = $response['value'];
+
+            // dd($val);
             // Check response
-            switch ($response) {
+            switch ($resp_return) {
 
                 case 'ok':
                     // Call token generator
-                    $access_token = $this->appTokens('password',['username'=>$email,'password'=>$password]);
+                    $access_token = $this->appTokens('password',['username'=>$email, 'password'=>$password]);
                     // create response
-                    $data = ["token"=> $access_token];
-
+                    $data = [
+                        "token"=> $access_token,
+                        "id"=>$resp_value
+                    ];
                     // Return response from response builder
                     return ResponseBuilder::success($data);
                     break;
@@ -156,17 +161,47 @@ class UserService implements UserServiceInterface {
 
         $data = json_decode($payload);
 
-        return $payload;
+        return $data;
+    }
+
+    // Check password 
+    public function passwordHash ($request) {
+        // 
+        if ( $request->has('password') ) {
+            // Take password
+            $oldPass = $request->password;
+
+            // Hash
+            $newPass = Hash::make($oldPass);
+
+            // Merge 
+            $req = $request->merge( [ 'password' => $newPass ] );
+
+            // return 
+            return $req;
+        } else {
+            // Exit
+            return 'error';
+        }
     }
 
     // Register single user
     public function registerUser( $request ) {
-        // Send to repository
-        $response = $this->repo->createSingleUser($request);
 
-        // Email and password 
-        $email = $request->email;
-        $password = $request->password;
+        // Hash password
+        $req = $this->passwordHash( $request );
+
+        if ( $req === 'error' ) {
+
+            return 'error';
+        }
+
+        $email = $req->email;
+        $password = $req->password;
+
+        // Send to repository
+        $response = $this->repo->createSingleUser($req);
+    
 
         // Build response 
         switch($response) {

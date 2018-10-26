@@ -13,6 +13,8 @@ interface UserRepositoryInterface {
 
     public function getSingleUser($id);
 
+    public function userExists ( $id );
+
     public function checkForDuplicateEmail($email);
 
     public function checkForDuplicateUsername($username);
