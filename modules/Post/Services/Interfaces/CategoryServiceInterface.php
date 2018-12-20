@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Category\Services\Interfaces;
+namespace Modules\Post\Services\Interfaces;
 
 interface CategoryServiceInterface {
 

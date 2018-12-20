@@ -7,31 +7,26 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
-use Modules\Post\Services\PostService;
 use Modules\Post\Services\CategoryService;
 
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     
     // Variables
-    private $postservice;
     private $categoryservice;
 
     /**
      * 
      * Class constructor
      */
-    public function __construct( CategoryService $categoryservice, PostService $postservice ) {
-
-        $this->postservice = $postservice;
+    public function __construct( CategoryService $categoryservice ) {
 
         $this->categoryservice = $categoryservice;
     }
-
     /**
      * 
-     * Post methods
+     * Category Methods
      * 
      */
 
@@ -39,18 +34,19 @@ class PostController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function allPosts() {
+    public function allCategories() {
 
-        return $this->postservice->getAllPosts();
+        return $this->categoryservice->getAllCategories();
     }
 
+   
     /**
      * Get a single post
      * @return Response
      */
-    public function singlePost( Request $request,$id) {
+    public function singleCategory( Request $request,$id) {
 
-        return $this->postservice->getSinglePost($id);
+        return $this->categoryservice->getSingleCategory($id);
     }
 
     /**
@@ -58,9 +54,9 @@ class PostController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function storePost(Request $request) {
+    public function storeCategory(Request $request) {
         
-        return $this->postservice->createSinglePost($request);
+        return $this->categoryservice->createSingleCategory($request);
     }
 
     /**
@@ -68,19 +64,18 @@ class PostController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function updatePost(Request $request) {
+    public function updateCategory(Request $request) {
 
-        return $this->postservice->updateSinglePost($request,$id);
+        return $this->categoryservice->updateSingleCategory($request,$id);
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroyPost() {
+    public function destroyCategory() {
 
-        return $this->postservice->deletePost($id);
+        return $this->categoryservice->deleteCategory($id);
 
     }
-
 }

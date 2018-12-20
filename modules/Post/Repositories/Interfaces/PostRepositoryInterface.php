@@ -13,5 +13,7 @@ interface PostRepositoryInterface {
 
    public function getSinglePost($id);
 
+   public function postExists ($id);
+
    public function deletePost($id);
 }

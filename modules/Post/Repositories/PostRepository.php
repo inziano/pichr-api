@@ -58,6 +58,12 @@ class PostRepository implements PostRepositoryInterface {
         return $data;
     }
 
+     // Query availability of record
+     public function postExists ( $id ) {
+        // User
+        return Post::where( 'id', $id )->exists();
+    }
+
     /**
      * 
      * Update methods

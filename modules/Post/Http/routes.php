@@ -16,13 +16,25 @@ Route::group(['middleware'=>'api','prefix'=> 'api/posts','namespace'=>'Modules\P
 
 });
 
-Route::group(['middleware'=>'api','prefix'=> 'api/categories','namespace'=>'Modules\Post\Http\Controllers'], function()
+Route::group(['middleware'=>'api','prefix'=> 'api/post/categories','namespace'=>'Modules\Post\Http\Controllers'], function()
 {
 
     // Get all the images
-    Route::get('all','PostController@allCategories');
+    Route::get('all','CategoryController@allCategories');
 
     // New post
-    Route::post('create','PostController@storeCategory');
+    Route::post('create','CategoryController@storeCategory');
+
+});
+
+
+Route::group(['middleware'=>'api','prefix'=> 'api/post/downloads','namespace'=>'Modules\Post\Http\Controllers'], function()
+{
+
+    // Get all the images
+    Route::get('all','DownloadController@allDownloads');
+
+    // New post
+    Route::post('create','DownloadController@storeDownload');
 
 });
