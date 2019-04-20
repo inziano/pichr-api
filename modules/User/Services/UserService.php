@@ -3,6 +3,7 @@
 namespace Modules\User\Services;
 
 use App\ApiCode;
+use App\Events\UserCreated;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Application;
@@ -13,6 +14,7 @@ use Modules\User\Services\Interfaces\UserServiceInterface;
 class UserService implements UserServiceInterface {
 
     // Variables
+    private $mailer;
     private $app;
     private $repo;
     private $api_response;
@@ -26,6 +28,7 @@ class UserService implements UserServiceInterface {
         $this->repo = $repo;
 
         $this->response = $api_response;
+
     }
 
     /**
@@ -95,25 +98,21 @@ class UserService implements UserServiceInterface {
             // pass the values to the repo
             $response = $this->repo->checkCredentials($request);
 
-            $resp_return = $response['return'];
-            $resp_value = $response['value'];
-
-            // dd($val);
             // Check response
-            switch ($resp_return) {
+            switch ( $response ) {
 
-                case 'ok':
+                case $response->email === $email:
                     // Call token generator
                     $access_token = $this->appTokens('password',['username'=>$email, 'password'=>$password]);
+                        
                     // create response
-                    $data = [
-                        "token"=> $access_token,
-                        "id"=>$resp_value
-                    ];
+                    $data = [ "user_id"=>$response->id, "user_name"=>$response->name, "token"=> $access_token ];
+
                     // Return response from response builder
                     return ResponseBuilder::success($data);
-                    break;
 
+                    break;
+                // Password has error
                 case 'password error':
                     // create response 
                     return ResponseBuilder::error(ApiCode::EMAIL_PASSWORD_MISMATCH);
@@ -125,8 +124,8 @@ class UserService implements UserServiceInterface {
                     break;
 
                 default:
-                    // create response 
-                    return ResponseBuilder::error(ApiCode::EMAIL_PASSWORD_MISMATCH);
+                    // Return response from response builder
+                    return ResponseBuilder::error(ApiCode::LOGIN_ERROR);
                     break;
             }
         } else if ( !$request->has('email') || !$request->has('password') ) {
@@ -205,14 +204,21 @@ class UserService implements UserServiceInterface {
 
         // Build response 
         switch($response) {
-            // User created
-            case 'ok':
-                 // Call token generator
-                 $access_token = $this->appTokens('password',['username'=>$email,'password'=>$password]);
-                 // create response
-                 $data = ["token"=> $access_token];
+            // Response 
+            case $response->email === $email:
+                // Fire user created event
+                event( new UserCreated( $response->email ));
+    
+                // Call token generator
+                $access_token = $this->appTokens('password',['username'=>$email,'password'=>$password]);
+                
+                // create response
+                $data = [ "user_id"=> $response->id, "user_name"=> $response->username, "token"=> $access_token];
+
+                dd( $access_token );
                 //  Return response plus key
                 return ResponseBuilder::success($data);
+
                 break;
 
             // User already exists on system
@@ -231,8 +237,10 @@ class UserService implements UserServiceInterface {
                 break;
 
             // Some weird error that might happen
-            default: 
+            default:
+                // Return an error
                 return ResponseBuilder::error(ApiCode::SOMETHING_WENT_WRONG);
+                break;
         }
     }
 }

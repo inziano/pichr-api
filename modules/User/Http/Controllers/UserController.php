@@ -52,15 +52,15 @@ class UserController extends Controller
      * Create methods
      */
 
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function createSingleUser(Request $request) {
+    // /**
+    //  * Store a newly created resource in storage.
+    //  * @param  Request $request
+    //  * @return Response
+    //  */
+    // public function createSingleUser(Request $request) {
 
-        return $this->service->createSingleUser($request);
-    }
+    //     return $this->service->createSingleUser($request);
+    // }
 
 
     /**

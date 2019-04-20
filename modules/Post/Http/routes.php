@@ -22,6 +22,10 @@ Route::group(['middleware'=>'api','prefix'=> 'api/post/categories','namespace'=>
     // Get all the images
     Route::get('all','CategoryController@allCategories');
 
+    Route::get('notify', function() {
+        event(new App\Events\ImageUploaded('some',2));
+    });
+
     // New post
     Route::post('create','CategoryController@storeCategory');
 

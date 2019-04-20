@@ -67,7 +67,8 @@ class UserRepository implements UserRepositoryInterface {
                     'email'=> $request->email,
                     'password'=> $request->password
                 ]);
-            return 'ok';
+
+            return $newUser;
         }
     }
 
@@ -91,7 +92,8 @@ class UserRepository implements UserRepositoryInterface {
     // Query availability of record
     public function userExists ( $id ) {
         // User
-        return User::where( 'id', $id )->exists();
+        // Should return true if the user exists otherwise false
+        return User::where( 'id', $id )->get()->isNotEmpty();
     }
 
     // Query single user's credentials
@@ -112,32 +114,21 @@ class UserRepository implements UserRepositoryInterface {
             if ( Hash::check($request->password,$pass) )
             {
                 // Build data
-                $resp = [
-                    'return'=> 'ok',
-                    'value'=> $user->id
-                ];
+                $resp = $user;
                 // Return Okay.
                 return $resp;
             }
             else
             {
                // Build data
-               $resp = [
-                    'return'=> 'password error',
-                    'value'=> null
-                ];
-
+               $resp = 'password error';
                 return $resp;
             }
         }
         else
         {
             // Build data
-            $resp = [
-                'return'=> 'incorrect',
-                'value'=> null
-            ];
-
+            $resp = 'incorrect';
             return $resp;
         }
     } 

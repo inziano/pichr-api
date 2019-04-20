@@ -58,7 +58,6 @@ class AccountsController extends Controller
      * @return Response
      */
     public function createSingleAccount(Request $request) {
-
         return $this->service->createSingleAccount($request);
     }
 

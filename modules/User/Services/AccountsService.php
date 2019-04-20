@@ -2,8 +2,9 @@
 
 namespace Modules\User\Services;
 
+use App\ApiCode;
+use App\Events\AccountCreated;
 use \MarcinOrlowski\ResponseBuilder\ResponseBuilder;
-
 use Modules\User\Services\Interfaces\AccountsServiceInterface;
 use Modules\User\Repositories\AccountsRepository;
 use Modules\User\Repositories\UserRepository;
@@ -39,20 +40,47 @@ class AccountsService implements AccountsServiceInterface {
     public function createSingleAccount ( $request ) {
 
         // Check if the user exists
-        $val= $this->user->UserExists($request->user_id);
+        $userExists = $this->user->userExists($request->user_id);
 
-        if ( $val ) {
+        // Check if user has another account registered
+        // Returns true if account found false otherwise
+        $hasAccount = $this->repo->getSingleAccount( $request->user_id )->isNotEmpty();
 
-            // Hit repo  
+        
+        if ( $userExists === false ) {
+            // User does not exist
+            return ResponseBuilder::error(ApiCode::SOMETHING_WENT_WRONG);
+
+        } else if ( $userExists === true && $hasAccount === true ) {
+            // Account exists
+            // return ResponseBuilder::error(ApiCode::SOMETHING_WENT_WRONG);
+            return 'account exists';
+
+        } else if ( $userExists === false && $hasAccount === true) {
+            // User does not exist, account exists
+            // return ResponseBuilder::error(ApiCode::SOMETHING_WENT_WRONG);
+            return 'account exists';
+        } else {
+            // Default case, user exists, account non-existent
+            // Create account
             $acct = $this->repo->createSingleAccount($request);
 
-            // Build response
-            $response = $this->response::success($acct);
+            // check if ok
+            switch( $acct ) {
+                // Account created
+                case 'ok':
+                    // Fire event
+                    event( new AccountCreated( $request->user_id ) );
+                    // return success response
+                    return ResponseBuilder::success($acct);
+                    break;
 
-            // Return
-            return $response;
+                // Account not created
+                default:
+                    return ResponseBuilder::error(ApiCode::SOMETHING_WENT_WRONG);
+                    break;
+            }
         }
-
         
     }
 
@@ -67,23 +95,17 @@ class AccountsService implements AccountsServiceInterface {
         // Hit repo
         $acct = $this->repo->getSingleAccount( $id );
 
-        // Build response
-        $response = $this->response::success($acct);
-
         // Return
-        return $response;
+        return ResponseBuilder::success( $acct );
     }
     
     // All accounts
-    public function getAllAccounts ( ) {
+    public function getAllAccounts () {
         
         // Hit repo
-        $acct = $this->repo->getAllAccounts( );
-
-        // Build response
-        $response = $this->response::success($acct);
+        $acct = $this->repo->getAllAccounts();
 
         // Return
-        return $response;
+        return ResponseBuilder::success( $acct );
     }
 }

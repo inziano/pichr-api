@@ -49,7 +49,7 @@ class DownloadRepository implements DownloadRepositoryInterface {
     }
 
     // Query download on a single post
-    public function getPostDownload($id) {
+    public function getPostDownloads($id) {
 
         $data = Download::where('post_id',$id)->get();
 

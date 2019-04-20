@@ -16,6 +16,16 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+        'App\Events\ImageUploaded' => [
+            'App\Listeners\SendUserNotification',
+            'App\Listeners\UploadImageToCloud',
+        ],
+        'App\Events\UserCreated' => [
+            'App\Listeners\SendWelcomeNotification',
+        ],
+        'App\Events\AccountCreated' => [
+            'App\Listeners\SendAccountCreationConfirmation',
+        ],
     ];
 
     /**

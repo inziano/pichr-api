@@ -1,9 +1,7 @@
 <?php
-
 namespace Modules\User\Repositories;
 
 use Modules\User\Repositories\Interfaces\AccountsRepositoryInterface;
-
 use Modules\User\Entities\Account;
 
 class AccountsRepository implements AccountsRepositoryInterface {
@@ -63,7 +61,7 @@ class AccountsRepository implements AccountsRepositoryInterface {
     // Query single account record
     public function getSingleAccount ( $id ) {
         // Account
-        return Account::where( 'user_id', $id )->first();
+        return Account::where( 'user_id', $id )->get();
     }
 
     // Query all accounts
