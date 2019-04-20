@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //Change default database character set
+        Schema::defaultStringLength(191);
     }
 
     /**
